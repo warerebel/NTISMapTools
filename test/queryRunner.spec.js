@@ -43,8 +43,8 @@ describe("RunQueryToCompletion", function(){
     it("Runs to completion for no continuation token", async function(){
         const resultObject = {
             entries: [],
-                continuationToken: null
-            };
+            continuationToken: null
+        };
         const myStub = sinon.stub(QueryRunner, "RunQuery");
         myStub.onFirstCall().resolves({result: resultObject, response: {}});
         await QueryRunner.RunQueryToCompletion({}, {}, "test");
@@ -62,7 +62,7 @@ describe("RunQueryToCompletion", function(){
         };
         const resultObjectThree = {
             entries: [],
-                continuationToken: null
+            continuationToken: null
         };
         const myStub = sinon.stub(QueryRunner, "RunQuery");
         myStub.onFirstCall().resolves({result: resultObjectOne, response: {}});
