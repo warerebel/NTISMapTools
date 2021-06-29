@@ -20,6 +20,7 @@ const azurestorage = require("azure-storage");
 
 /**
  * @typedef queryParameter - The parameter item passed in an array to queryBuilder
+ * @property {string} select - A comma seperated list of fields to return in the query
  * @property {string} field - The table storage field to search
  * @property {srting} comparator - The comparator to use - for example: eq, ge, le, lt, gt
  * @property {string} value - The value to search for
@@ -35,7 +36,7 @@ class queryBuilder{
      */
     static buildQuery(parameters){
         const initialQueryString = parameters[0].field.concat(" ").concat(parameters[0].comparator).concat(" ?");
-        const query = new azurestorage.TableQuery().where(initialQueryString, parameters[0].value);
+        const query = new azurestorage.TableQuery().select(parameters.select).where(initialQueryString, parameters[0].value);
         for(let i = 1; i < parameters.length; i++){
             let queryString = parameters[i].field.concat(" ").concat(parameters[i].comparator).concat(" ?");
             query.and(queryString, parameters[i].value);
