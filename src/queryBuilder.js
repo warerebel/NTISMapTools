@@ -28,13 +28,13 @@ const azurestorage = require("azure-storage");
 
 class queryBuilder{
 
-    /** build an Azure query object from the provided parameters
+    /** build an Azure query object from the provided parameters. This query eclusively uses an AND comparison on all query parameters
      * @static
      * @method buildQuery
      * @param {Array<queryParameter>} parameters- An array of objects to build the query
      * @returns {object} - An azure storage table query object
      */
-    static buildQuery(parameters){
+    static buildAndQuery(parameters){
         const initialQueryString = parameters[0].field.concat(" ").concat(parameters[0].comparator).concat(" ?");
         const query = new azurestorage.TableQuery().select(parameters.select).where(initialQueryString, parameters[0].value);
         for(let i = 1; i < parameters.length; i++){

@@ -19,7 +19,7 @@
 const queryBuilder = require("../src/queryBuilder");
 const assert = require("assert");
 
-describe("buildQuery", function(){
+describe("buildAndQuery", function(){
 
     it("builds a single where query", function(){
         const parameter = {
@@ -28,7 +28,7 @@ describe("buildQuery", function(){
             value: "1234"
         };
         const parameters = [parameter];
-        const query = queryBuilder.buildQuery(parameters);
+        const query = queryBuilder.buildAndQuery(parameters);
         assert.deepStrictEqual(query._where[0], "PartitionKey eq '1234'");
     });
 
@@ -49,7 +49,7 @@ describe("buildQuery", function(){
             value: "9010"
         };
         const parameters = [parameterOne, parameterTwo, parameterThree];
-        const query = queryBuilder.buildQuery(parameters);
+        const query = queryBuilder.buildAndQuery(parameters);
         assert.deepStrictEqual(query._where[0], "PartitionKey eq '1234'");
         assert.deepStrictEqual(query._where[1], " and PartitionKey gt '4567'");
         assert.deepStrictEqual(query._where[2], " and RowKey le '9010'");
