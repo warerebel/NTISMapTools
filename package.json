@@ -1,9 +1,10 @@
 {
   "name": "ntismaptools",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Map interface to interact with NTIS data",
   "main": "./index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/mocha test/**"
   },
   "repository": {
