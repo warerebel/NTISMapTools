@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+"use strict";
+
 const azurestorage = require("azure-storage");
 const queryBuilder = require("./queryBuilder");
 const QueryRunner = require("./queryRunner");
-
-"use strict";
 
 class vmsModelService {
 
