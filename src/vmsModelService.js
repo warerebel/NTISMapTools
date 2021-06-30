@@ -71,7 +71,7 @@ class vmsModelService {
      */
     processVMSResults(vmsResults){
         const results = [];
-        vmsResults.value.forEach((site) => {
+        vmsResults.forEach((site) => {
             const result = this.processVMSSite(site);
             if(typeof result.id !== "undefined")
                 results.push(result);
@@ -110,7 +110,7 @@ class vmsModelService {
         const query = queryBuilder.buildAndQuery(queryParameters);
         const tableService = this.getVMSModelTableService();
         const result = await QueryRunner.RunQueryToCompletion(query, tableService, this.modelTablename);
-        this.processVMSResults(result.response.body);
+        this.processVMSResults(result);
     }
 
     /** Get a list of all vms model items

@@ -53,7 +53,7 @@ class QueryRunner{
         do{
             const result = await QueryRunner.RunQuery(continuationToken, query, tableService, tableName);
             continuationToken = result.result.continuationToken;
-            fullResults = fullResults.concat(result.response.body);
+            fullResults = fullResults.concat(result.response.body.value);
         } while(continuationToken !== null);
         return fullResults;
     }

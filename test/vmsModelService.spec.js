@@ -71,7 +71,7 @@ describe("vmsModelService", function(){
 
         it("processes a mixed array of vms items", function(){
             let inputArray = {};
-            inputArray.value = [this.returnedVMSSample, this.returnedVMSSample, this.matrixSignSample, this.returnedVMSSample];
+            inputArray = [this.returnedVMSSample, this.returnedVMSSample, this.matrixSignSample, this.returnedVMSSample];
             const targetArray = [this.targetVMSSample, this.targetVMSSample, this.targetVMSSample];
             const result = this.myVMSModelService.processVMSResults(inputArray);
             assert.deepStrictEqual(result, targetArray);
@@ -106,7 +106,7 @@ describe("vmsModelService", function(){
 
         it("returns a complete vms site list", function(){
             let inputArray = {};
-            inputArray.value = [this.returnedVMSSample, this.returnedVMSSample, this.returnedVMSSample];
+            inputArray = [this.returnedVMSSample, this.returnedVMSSample, this.returnedVMSSample];
             const targetArray = [this.targetVMSSample, this.targetVMSSample, this.targetVMSSample];
             this.myVMSModelService.processVMSResults(inputArray);
             const result = this.myVMSModelService.getVMSSiteList();

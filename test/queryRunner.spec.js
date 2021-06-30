@@ -46,7 +46,7 @@ describe("RunQueryToCompletion", function(){
             continuationToken: null
         };
         const myStub = sinon.stub(QueryRunner, "RunQuery");
-        myStub.onFirstCall().resolves({result: resultObject, response: {}});
+        myStub.onFirstCall().resolves({result: resultObject, response: {body: {value: []}}});
         await QueryRunner.RunQueryToCompletion({}, {}, "test");
         assert.deepStrictEqual(myStub.callCount, 1);
     });
@@ -65,9 +65,9 @@ describe("RunQueryToCompletion", function(){
             continuationToken: null
         };
         const myStub = sinon.stub(QueryRunner, "RunQuery");
-        myStub.onFirstCall().resolves({result: resultObjectOne, response: {}});
-        myStub.onSecondCall().resolves({result: resultObjectTwo, response: {}});
-        myStub.onThirdCall().resolves({result: resultObjectThree, response: {}});
+        myStub.onFirstCall().resolves({result: resultObjectOne, response: {body: {value: []}}});
+        myStub.onSecondCall().resolves({result: resultObjectTwo, response: {body: {value: []}}});
+        myStub.onThirdCall().resolves({result: resultObjectThree, response: {body: {value: []}}});
         await QueryRunner.RunQueryToCompletion({}, {}, "test");
         assert.deepStrictEqual(myStub.callCount, 3);
     });
