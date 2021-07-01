@@ -16,7 +16,7 @@
 
 "use strict";
 
-/* global L ntismapdiv fetch */
+/* global L ntismapdiv fetch iconLinks */
 
 (function(){
     
@@ -55,7 +55,9 @@
         currentMarkers = [];
         const VMSList = await updateAssets();
         VMSList.forEach(function(vms){
-            let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier}).addTo(ntismapdiv);
+            let direction = isNaN(parseInt(vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1))) ? vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1) : vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -2, 1);
+            let icon = iconLinks[vms.textDisplay.concat(direction)];
+            let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true}).addTo(ntismapdiv);
             currentMarkers.push(marker);
         });
         tempmarkers.forEach(function(marker){
