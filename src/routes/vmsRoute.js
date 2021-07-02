@@ -29,10 +29,20 @@ myVmsModelService.getVMSFromTableStorage().catch((error) => {
 
 const myVmsRequesthandler = new vmsRequestHandler(myVmsModelService);
 
+/** Get all VMS signs
+ * @method get
+ * @param {object} req - An Express request object
+ * @param {object} res - An Express response object
+ */
 router.get("/all", function(req, res){
     res.json(myVmsRequesthandler.getAllVMS());
 });
 
+/** Get VMS signs inside a bounding box
+ * @method get
+ * @param {object} req - An Express request object
+ * @param {object} res - An Express response object
+ */
 router.post("/boundingBox", function(req, res, next){
     const validationResult = vmsRequestValidator.boundingBox.validate(req.body);
     if(validationResult.length > 0)
