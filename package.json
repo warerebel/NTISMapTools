@@ -1,6 +1,6 @@
 {
   "name": "ntismaptools",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Map interface to interact with NTIS data",
   "main": "./index.js",
   "scripts": {

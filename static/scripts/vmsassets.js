@@ -20,7 +20,26 @@
 
 (function(){
     
-    let currentMarkers = [];
+    let currentLayers = {};
+    const TT = L.layerGroup().addTo(ntismapdiv);
+    const TS = L.layerGroup().addTo(ntismapdiv);
+    const THT = L.layerGroup().addTo(ntismapdiv);
+    const TE = L.layerGroup().addTo(ntismapdiv);
+    const TN = L.layerGroup().addTo(ntismapdiv);
+    const FT = L.layerGroup().addTo(ntismapdiv);
+    const FTH = L.layerGroup().addTo(ntismapdiv);
+    const FF = L.layerGroup().addTo(ntismapdiv);
+    let currentLayerControl = L.control.layers(null).addTo(ntismapdiv);
+    currentLayers = {
+        "2x12": TT,
+        "2x16": TS,
+        "3x12": THT,
+        "3x18": TE,
+        "3x9": TN,
+        "4x12": FT,
+        "4x13": FTH,
+        "4x15": FF
+    };
 
     function getBoundBox(){
         const bounds = ntismapdiv.getBounds();
@@ -51,23 +70,35 @@
     }
 
     async function updateMarkers(){
-        let tempmarkers = currentMarkers;
-        currentMarkers = [];
         const VMSList = await updateAssets();
+        for(let property in currentLayers){
+            if(Object.prototype.hasOwnProperty.call(currentLayers, property)){
+                currentLayers[property].clearLayers();
+            }
+        }
         VMSList.forEach(function(vms){
             let direction = isNaN(parseInt(vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1))) ? vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1) : vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -2, 1);
             let icon = iconLinks[vms.textDisplay.concat(direction)];
-            let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true}).addTo(ntismapdiv);
-            currentMarkers.push(marker);
+            let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true});
+            currentLayers[vms.textDisplay].addLayer(marker);
         });
-        tempmarkers.forEach(function(marker){
-            marker.remove();
-        });
+    }
+
+    function initLayerControl(){
+        currentLayerControl.addOverlay(TT, "2x12");
+        currentLayerControl.addOverlay(TS, "2x16");
+        currentLayerControl.addOverlay(THT, "3x12");
+        currentLayerControl.addOverlay(TE, "3x18");
+        currentLayerControl.addOverlay(TN, "3x9");
+        currentLayerControl.addOverlay(FT, "4x12");
+        currentLayerControl.addOverlay(FTH, "4x13");
+        currentLayerControl.addOverlay(FF, "4x15");
     }
 
     ntismapdiv.on("zoomend", updateMarkers);
     ntismapdiv.on("moveend", updateMarkers);
     ntismapdiv.on("load", updateMarkers);
+    initLayerControl();
 
 })();
 
