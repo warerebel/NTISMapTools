@@ -16,26 +16,29 @@
 
 "use strict";
 
-const express = require("express");
-const compression = require("compression");
-const vmsRoute = require("./src/routes/vmsRoute");
+const Schema = require("validate");
 
-const app = express();
-
-app.use(compression());
-app.use(express.static("static"));
-app.use(express.json());
-
-const port = process.env.PORT | 8000;
-
-app.set("view engine", "pug");
-
-app.get("/", function (req, res) {
-    res.render("index");
+const boundingBox = new Schema({
+    topLeft: {
+        latitude: {
+            type: Number,
+            required: true
+        },
+        longitude: {
+            type: Number,
+            required: true
+        }
+    },
+    bottomRight: {
+        latitude: {
+            type: Number,
+            required: true
+        },
+        longitude: {
+            type: Number,
+            required: true
+        }
+    }
 });
 
-app.use("/vms", vmsRoute);
-
-app.listen(port, () => {
-    //console.log("Started app");
-});
+module.exports.boundingBox = boundingBox;
