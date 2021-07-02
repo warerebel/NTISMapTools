@@ -26,7 +26,7 @@ app.use(compression());
 app.use(express.static("static"));
 app.use(express.json());
 
-const port = process.env.PORT | 8000;
+const port = process.env.PORT || 8000;
 
 app.set("view engine", "pug");
 
