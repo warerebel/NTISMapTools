@@ -18,7 +18,7 @@
 
 /* global L window document */
 
-const ntismapdiv = L.map("NTISMap").setView([51.505, -0.09], 13);
+const ntismapdiv = L.map("NTISMap").setView([52.453643, -2.010528], 13);
 
 (function(){
 
