@@ -39,3 +39,6 @@ app.use("/vms", vmsRoute);
 app.listen(port, () => {
     //console.log("Started app");
 });
+
+
+module.exports = app;
