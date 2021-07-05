@@ -16,7 +16,7 @@
 
 "use strict";
 
-const vmsModelService = require("../src/vmsModelService");
+const vmsModelService = require("../../src/vmsModelService");
 const assert = require("assert");
 
 describe("vmsModelService", function(){

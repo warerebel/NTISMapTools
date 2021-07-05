@@ -16,7 +16,7 @@
 
 "use strict";
 
-const queryBuilder = require("../src/queryBuilder");
+const queryBuilder = require("../../src/queryBuilder");
 const assert = require("assert");
 
 describe("buildAndQuery", function(){

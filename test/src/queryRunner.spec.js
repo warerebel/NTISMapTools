@@ -18,7 +18,7 @@
 
 const sinon = require("sinon");
 const assert = require("assert");
-const QueryRunner = require("../src/queryRunner");
+const QueryRunner = require("../../src/queryRunner");
 
 describe("RunQuery", function(){
     

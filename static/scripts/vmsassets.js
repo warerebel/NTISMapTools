@@ -20,6 +20,11 @@
 
 (function(){
     
+    ntismapdiv.on("zoomend", updateMarkers);
+    ntismapdiv.on("moveend", updateMarkers);
+    //ntismapdiv.on("load", updateMarkers);
+    ntismapdiv.on("load", updateMarkers).setView([52.453643, -2.010528], 13);
+
     let currentLayers = {};
     const TT = L.layerGroup().addTo(ntismapdiv);
     const TS = L.layerGroup().addTo(ntismapdiv);
@@ -41,6 +46,10 @@
         "4x15": FF
     };
 
+    /** Gets a bounding box for the current map view
+     * @function getBoundBox 
+     * @returns {object} - a bound box object
+     */
     function getBoundBox(){
         const bounds = ntismapdiv.getBounds();
         return {
@@ -55,6 +64,11 @@
         };
     }
 
+    /** Request a new list of assets from the server
+     * @async
+     * @function updateAssets
+     * @returns {object} - The new assets
+     */
     async function updateAssets(){
         const boundBox = getBoundBox();
         const requestOptions = {
@@ -69,6 +83,10 @@
         return VMSObjects;
     }
 
+    /** - Clears all the markers in the current layer groups and adds new markers
+     * @async
+     * @function updateMarkers
+     */
     async function updateMarkers(){
         const VMSList = await updateAssets();
         for(let property in currentLayers){
@@ -84,6 +102,9 @@
         });
     }
 
+    /** Initialise the checkbox control for selecting layers
+     * @function initLayerControl
+     */
     function initLayerControl(){
         currentLayerControl.addOverlay(TT, "2x12");
         currentLayerControl.addOverlay(TS, "2x16");
@@ -95,9 +116,6 @@
         currentLayerControl.addOverlay(FF, "4x15");
     }
 
-    ntismapdiv.on("zoomend", updateMarkers);
-    ntismapdiv.on("moveend", updateMarkers);
-    ntismapdiv.on("load", updateMarkers);
     initLayerControl();
 
 })();

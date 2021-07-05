@@ -47,7 +47,7 @@ class vmsModelService {
      * @param {string} networkModelVersion 
      * @returns {Array<queryParameter>}
      */
-    getVMSModelQueryParams(networkModelVersion){
+    getVMSModelQueryParams(networkModelVersion = ""){
         const queryParameters = [
             {
                 select: "RowKey, PartitionKey, vmsUnitIdentifier, vmsUnitElectronicAddress, vmsRecord",

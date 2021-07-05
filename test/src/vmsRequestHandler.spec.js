@@ -16,7 +16,7 @@
 
 "use strict";
 
-const vmsRequestHandler = require("../src/vmsRequestHandler");
+const vmsRequestHandler = require("../../src/vmsRequestHandler");
 const assert = require("assert");
 
 describe("vmsRequestHandler", function(){
