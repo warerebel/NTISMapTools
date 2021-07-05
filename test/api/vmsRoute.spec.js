@@ -16,7 +16,7 @@
 
 "use strict";
 
-const returnedVMSList =[
+const returnedVMSList = [
     {
         PartitionKey: "14.12",
         RowKey: "0D3EDF9EB30F7BB9E0533CC711AC4D20",
@@ -103,6 +103,72 @@ describe("vmsRoute", function(){
                 longitude: -1.28405987887439
             }
         ];
+        this.allResults = [
+            {
+                id: "0D3EDF9EB30F7BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M6/7558B",
+                vmsUnitElectronicAddress: "024/4/012/112",
+                textDisplay: "2x12",
+                latitude: 53.8032993199717,
+                longitude: -2.69387568112903
+            },
+            {
+                id: "0D3EDF9EB3107BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M6/7556A",
+                vmsUnitElectronicAddress: "024/4/012/117",
+                textDisplay: "2x12",
+                latitude: 53.8018333237198,
+                longitude: -2.69248493889856
+            },
+            {
+                id: "0D3EDF9EB3117BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M6/7550A",
+                vmsUnitElectronicAddress: "024/4/012/131",
+                textDisplay: "2x12",
+                latitude: 53.79854695901,
+                longitude: -2.68565946350349
+            },
+            {
+                id: "0D3EDF9EB3127BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M6/7561A",
+                vmsUnitElectronicAddress: "024/4/012/137",
+                textDisplay: "2x12",
+                latitude: 53.8056022525714,
+                longitude: -2.6966318285375
+            },
+            {
+                id: "0D3EDF9EB3137BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M6/7558K",
+                vmsUnitElectronicAddress: "024/4/012/107",
+                textDisplay: "2x12",
+                latitude: 53.8033909462548,
+                longitude: -2.69357351759342
+            },
+            {
+                id: "0D3EDF9EB3527BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M1/4420B",
+                vmsUnitElectronicAddress: "012/3/127/003",
+                textDisplay: "4x12",
+                latitude: 53.3105231988457,
+                longitude: -1.28349006286895
+            },
+            {
+                id: "0D3EDF9EB3537BB9E0533CC711AC4D20",
+                version: "14.12",
+                vmsUnitIdentifier: "M1/4419A",
+                vmsUnitElectronicAddress: "012/3/127/103",
+                textDisplay: "4x12",
+                latitude: 53.3096547073542,
+                longitude: -1.28405987887439
+            }
+        ];
+        
         this.topLeft = {
             latitude: 53.363460,
             longitude: -1.367715
@@ -122,7 +188,30 @@ describe("vmsRoute", function(){
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 200);
-                assert.deepStrictEqual(response.body[0], me.finalResults[0]);
+                assert.deepStrictEqual(response.body, me.finalResults);
+                done();
+            });
+    });
+
+    it("rejects a request with invalid bounding box", function(done){
+        this.server = chai.request(app)
+            .post("/vms/boundingBox")
+            .set("Content-Type", "application/json")
+            .send({topLeft: 11, bottomRight: this.bottomRight})
+            .end(function(error, response){
+                assert.deepStrictEqual(response.status, 500);
+                done();
+            });
+    });
+
+    it("gets all vms", function(done){
+        const me = this;
+        this.server = chai.request(app)
+            .get("/vms/all")
+            .end(function(error, response){
+                assert.deepStrictEqual(error, null);
+                assert.deepStrictEqual(response.status, 200);
+                assert.deepStrictEqual(response.body, me.allResults);
                 done();
             });
     });

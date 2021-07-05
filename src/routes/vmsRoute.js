@@ -47,8 +47,10 @@ router.post("/boundingBox", function(req, res, next){
     const validationResult = vmsRequestValidator.boundingBox.validate(req.body);
     if(validationResult.length > 0)
         next(validationResult);
-    const result = myVmsRequesthandler.getVMSInBoundingBox(req.body.topLeft, req.body.bottomRight);
-    res.json(result);
+    else {
+        const result = myVmsRequesthandler.getVMSInBoundingBox(req.body.topLeft, req.body.bottomRight);
+        res.json(result);
+    }
 });
 
 module.exports = router;
