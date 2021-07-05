@@ -18,10 +18,12 @@
 
 const express = require("express");
 const compression = require("compression");
+const helmet = require("helmet");
 const vmsRoute = require("./src/routes/vmsRoute");
 
 const app = express();
 
+app.use(helmet());
 app.use(compression());
 app.use(express.static("static"));
 app.use(express.json());
