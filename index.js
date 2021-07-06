@@ -23,12 +23,12 @@ const vmsRoute = require("./src/routes/vmsRoute");
 
 const app = express();
 
-// TODO: don't allow an open "data:" origin for images
 app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
         "script-src": ["'self'", "cdn.jsdelivr.net", "unpkg.com"],
-        "img-src": ["'self'", "*.tile.openstreetmap.org", "unpkg.com", "data:"]
+        "img-src": ["'self'", "*.tile.openstreetmap.org", "unpkg.com", "data:"],
+        "frame-ancestors": ["*.id.repl.co", "replit.com"]
     }
 }));
 app.use(compression());
