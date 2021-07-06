@@ -47,7 +47,7 @@ app.get("/", function (req, res) {
 app.use("/vms", vmsRoute);
 
 app.listen(port, () => {
-    logger.info("Started app");
+    logger.info(`Started NTISMapTools app, listening on port: ${port}`);
 });
 
 module.exports = app;
