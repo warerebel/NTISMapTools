@@ -26,7 +26,7 @@ const azurestorage = require("azure-storage");
  * @property {string} value - The value to search for
  */
 
-class queryBuilder{
+class queryBuilder {
 
     /** build an Azure query object from the provided parameters. This query eclusively uses an AND comparison on all query parameters
      * @static

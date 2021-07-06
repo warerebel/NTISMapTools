@@ -96,6 +96,7 @@ class vmsModelService {
         itemToReturn.textDisplay = tempItem.vmsRecord.vmsTextDisplayCharacteristics.maxNumberOfRows + "x" + tempItem.vmsRecord.vmsTextDisplayCharacteristics.maxNumberOfCharacters;
         itemToReturn.latitude = parseFloat(tempItem.vmsRecord.vmsLocation.locationForDisplay.latitude);
         itemToReturn.longitude = parseFloat(tempItem.vmsRecord.vmsLocation.locationForDisplay.longitude);
+        itemToReturn.networkLink = tempItem.vmsRecord.vmsLocation.pointAlongLinearElement.linearElement.linearElementIdentifier;
         return itemToReturn;
     }
 

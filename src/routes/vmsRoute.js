@@ -20,11 +20,12 @@ const express = require("express");
 const vmsRequestHandler = require("../vmsRequestHandler");
 const vmsModelService = require("../vmsModelService");
 const vmsRequestValidator = require("../validations/vmsRequestValidator");
+const logger = require("../logger");
 const router = express.Router();
 
 const myVmsModelService = new vmsModelService();
 myVmsModelService.getVMSFromTableStorage().catch((error) => {
-    //console.log(error);
+    logger.error(error);
 });
 
 const myVmsRequesthandler = new vmsRequestHandler(myVmsModelService);

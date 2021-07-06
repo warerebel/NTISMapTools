@@ -91,7 +91,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "012/3/127/003",
                 textDisplay: "4x12",
                 latitude: 53.3105231988457,
-                longitude: -1.28349006286895
+                longitude: -1.28349006286895,
+                networkLink: "114008802"
             },
             {
                 id: "0D3EDF9EB3537BB9E0533CC711AC4D20",
@@ -100,7 +101,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "012/3/127/103",
                 textDisplay: "4x12",
                 latitude: 53.3096547073542,
-                longitude: -1.28405987887439
+                longitude: -1.28405987887439,
+                networkLink: "123015301"
             }
         ];
         this.allResults = [
@@ -111,7 +113,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "024/4/012/112",
                 textDisplay: "2x12",
                 latitude: 53.8032993199717,
-                longitude: -2.69387568112903
+                longitude: -2.69387568112903,
+                networkLink: "117016102"
             },
             {
                 id: "0D3EDF9EB3107BB9E0533CC711AC4D20",
@@ -120,7 +123,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "024/4/012/117",
                 textDisplay: "2x12",
                 latitude: 53.8018333237198,
-                longitude: -2.69248493889856
+                longitude: -2.69248493889856,
+                networkLink: "117016001"
             },
             {
                 id: "0D3EDF9EB3117BB9E0533CC711AC4D20",
@@ -129,7 +133,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "024/4/012/131",
                 textDisplay: "2x12",
                 latitude: 53.79854695901,
-                longitude: -2.68565946350349
+                longitude: -2.68565946350349,
+                networkLink: "117016001"
             },
             {
                 id: "0D3EDF9EB3127BB9E0533CC711AC4D20",
@@ -138,7 +143,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "024/4/012/137",
                 textDisplay: "2x12",
                 latitude: 53.8056022525714,
-                longitude: -2.6966318285375
+                longitude: -2.6966318285375,
+                networkLink: "117011901"
             },
             {
                 id: "0D3EDF9EB3137BB9E0533CC711AC4D20",
@@ -147,7 +153,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "024/4/012/107",
                 textDisplay: "2x12",
                 latitude: 53.8033909462548,
-                longitude: -2.69357351759342
+                longitude: -2.69357351759342,
+                networkLink: "117016101"
             },
             {
                 id: "0D3EDF9EB3527BB9E0533CC711AC4D20",
@@ -156,7 +163,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "012/3/127/003",
                 textDisplay: "4x12",
                 latitude: 53.3105231988457,
-                longitude: -1.28349006286895
+                longitude: -1.28349006286895,
+                networkLink: "114008802"
             },
             {
                 id: "0D3EDF9EB3537BB9E0533CC711AC4D20",
@@ -165,7 +173,8 @@ describe("vmsRoute", function(){
                 vmsUnitElectronicAddress: "012/3/127/103",
                 textDisplay: "4x12",
                 latitude: 53.3096547073542,
-                longitude: -1.28405987887439
+                longitude: -1.28405987887439,
+                networkLink: "123015301"
             }
         ];
         

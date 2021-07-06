@@ -37,7 +37,8 @@ describe("vmsModelService", function(){
             vmsUnitElectronicAddress: "024/4/012/117",
             textDisplay: "2x12",
             latitude: 53.8018333237198,
-            longitude: -2.69248493889856
+            longitude: -2.69248493889856,
+            networkLink: "117016001"
         };
         this.matrixSignSample = {
             "odata.etag": "W/\"datetime'2021-06-18T18%3A56%3A04.6977033Z'\"",
