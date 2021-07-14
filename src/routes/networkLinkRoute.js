@@ -17,42 +17,26 @@
 "use strict";
 
 const express = require("express");
-const vmsRequestHandler = require("../vmsRequestHandler");
-const vmsModelService = require("../vmsModelService");
-const vmsRequestValidator = require("../validations/vmsRequestValidator");
 const logger = require("../logger");
+const linkModelService = require("../networkModelLinkService");
+const networkModelLinkRequestHandler = require("../networkModelLinkRequestHandler");
 const router = express.Router();
 
-const myVmsModelService = new vmsModelService();
+const myLinkModelService = new linkModelService();
 /* istanbul ignore next */
-myVmsModelService.getVMSFromTableStorage().catch((error) => {
+myLinkModelService.getNetworkLinksFromTableStorage().catch((error) => {
     logger.error(error);
 });
 
-const myVmsRequesthandler = new vmsRequestHandler(myVmsModelService);
+const myNetworkModelLinkRequesthandler = new networkModelLinkRequestHandler(myLinkModelService);
 
-/** Get all VMS signs
+/** Get all network links
  * @method get
  * @param {object} req - An Express request object
  * @param {object} res - An Express response object
  */
 router.get("/all", function(req, res){
-    res.json(myVmsRequesthandler.getAllVMS());
-});
-
-/** Get VMS signs inside a bounding box
- * @method get
- * @param {object} req - An Express request object
- * @param {object} res - An Express response object
- */
-router.post("/boundingBox", function(req, res, next){
-    const validationResult = vmsRequestValidator.boundingBox.validate(req.body);
-    if(validationResult.length > 0)
-        next(validationResult);
-    else {
-        const result = myVmsRequesthandler.getVMSInBoundingBox(req.body.topLeft, req.body.bottomRight);
-        res.json(result);
-    }
+    res.json(myNetworkModelLinkRequesthandler.getAllNetworkLinks());
 });
 
 module.exports = router;
