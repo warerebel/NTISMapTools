@@ -18,10 +18,30 @@
 
 const winston = require("winston");
 
-const logger = winston.createLogger({
-    transports: [
-        new winston.transports.Console()
-    ]
-});
+let logger;
+
+
+if (process.env.NODE_ENV === "production"){
+    logger = winston.createLogger({
+        transports: [
+            new winston.transports.Console()
+        ]
+    });
+}
+else if (process.env.NODE_ENV === "test"){
+    logger = winston.createLogger({
+        transports: [
+            new winston.transports.Console()
+        ],
+        silent: true
+    });
+}
+else {
+    logger = winston.createLogger({
+        transports: [
+            new winston.transports.Console()
+        ]
+    });
+}
 
 module.exports = logger;
