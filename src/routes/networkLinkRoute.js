@@ -20,6 +20,7 @@ const express = require("express");
 const logger = require("../logger");
 const linkModelService = require("../networkModelLinkService");
 const networkModelLinkRequestHandler = require("../networkModelLinkRequestHandler");
+const { route } = require("./vmsRoute");
 const router = express.Router();
 
 const myLinkModelService = new linkModelService();
@@ -37,6 +38,19 @@ const myNetworkModelLinkRequesthandler = new networkModelLinkRequestHandler(myLi
  */
 router.get("/all", function(req, res){
     res.json(myNetworkModelLinkRequesthandler.getAllNetworkLinks());
+});
+
+/** Get A Target to match the user input search string
+ * @method Get
+ * @param {object} req - An Express request object
+ * @param {object} res - An Express response object
+ */
+router.post("/match", function(req, res){
+    if(typeof req.body.string === "string" && req.body.string.length >= 3){
+        res.json(myNetworkModelLinkRequesthandler.findMatch(req.body.string.toLowerCase()));
+    } else {
+        res.json([]);
+    }
 });
 
 module.exports = router;

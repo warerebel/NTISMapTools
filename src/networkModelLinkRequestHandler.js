@@ -34,6 +34,22 @@ class networkModelLinkRequestHandler {
         return this.networkLinkModelService.getNetworkLinkList();
     }
 
+    /** Find up to 10 targets to return as potential matches
+     * @method findMatch
+     * @returns {Array}
+     */
+    findMatch(target){
+        const links = this.networkLinkModelService.getNetworkLinkList();
+        const results = [];
+        for(let i = 0; i < links.length; i++){
+            if(links[i].description.toLowerCase().includes(target))
+                results.push(links[i].description);
+            if(results.length >= 10)
+                return results;
+        }
+        return results;
+    }
+
 }
 
 module.exports = networkModelLinkRequestHandler;

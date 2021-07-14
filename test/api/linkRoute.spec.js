@@ -78,4 +78,18 @@ describe("networkLinkRoute", function(){
                 done();
             });
     });
+
+    it("matches a search string", function(done){
+        const me = this;
+        this.server = chai.request(app)
+            .post("/links/match")
+            .send({string: "A38"})
+            .end(function(error, response){
+                assert.deepStrictEqual(error, null);
+                assert.deepStrictEqual(response.status, 200);
+                assert.deepStrictEqual(response.body, [me.allResults[1].description]);
+                done();
+            });
+    });
+
 });
