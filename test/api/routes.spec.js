@@ -68,14 +68,39 @@ const returnedVMSList = [
     }
 ];
 
+const returnedNetworkLinks = [
+    {
+        "odata.etag": "W/\"datetime'2021-06-18T18%3A54%3A49.1049839Z'\"",
+        PartitionKey: "14.12",
+        RowKey: "101000101",
+        attrs: "{\"version\":\"14.12\",\"id\":\"101000101\"}",
+        location: "{\"supplementaryPositionalDescription\":{\"carriageway\":\"exitSlipRoad\",\"lane\":\"allLanesCompleteCarriageway\",\"lengthAffected\":\"389.2783\"},\"linearWithinLinearElement\":{\"directionBoundOnLinearSection\":\"southBound\",\"linearElement\":{\"roadNumber\":\"M5\",\"linearElementNature\":\"road\",\"attrs\":{\"xsi:type\":\"LinearElement\"}},\"fromPoint\":{\"distanceAlong\":\"0\",\"fromReferent\":{\"referentIdentifier\":\"1010020\",\"referentType\":\"roadNode\"},\"attrs\":{\"xsi:type\":\"DistanceFromLinearElementReferent\"}},\"toPoint\":{\"distanceAlong\":\"0\",\"fromReferent\":{\"referentIdentifier\":\"1010001\",\"referentType\":\"roadNode\"},\"attrs\":{\"xsi:type\":\"DistanceFromLinearElementReferent\"}},\"linearWithinLinearElementExtension\":{\"exitPointStaticCapacity\":\"1887\",\"midPointStaticCapacity\":\"4194\"}},\"linearExtension\":{\"areaDescriptor\":[{\"descriptor\":{\"text\":\"Devon County\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"countyName\"},{\"descriptor\":{\"text\":\"Area 2\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"areaName\"},{\"descriptor\":{\"text\":\"South West RCC\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"regionName\"}],\"linearLocation\":{\"tpegDirection\":\"southBound\",\"tpegLinearLocationType\":\"segment\",\"to\":{\"pointCoordinates\":{\"latitude\":\"50.860839\",\"longitude\":\"-3.383154\"},\"ilc\":\"tpegIlcName2\",\"attrs\":{\"xsi:type\":\"TpegJunction\"}},\"from\":{\"pointCoordinates\":{\"latitude\":\"50.864338\",\"longitude\":\"-3.383101\"},\"name\":{\"descriptor\":{\"text\":\"27\",\"attrs\":{\"lang\":\"en\"}},\"tpegJunctionPointDescriptorType\":\"junctionName\"},\"ilc\":{\"descriptor\":\"A361\",\"tpegIlcPointDescriptorType\":\"tpegIlcName2\"},\"attrs\":{\"xsi:type\":\"TpegJunction\"}}}},\"attrs\":{\"xsi:type\":\"Linear\"}}",
+        predefinedLocationName: "{\"text\":\"M5 J28 southbound exit\",\"attrs\":{\"lang\":\"en\"}}",
+    },
+    {
+        "odata.etag": "W/\"datetime'2021-06-18T18%3A54%3A49.1049839Z'\"",
+        PartitionKey: "14.12",
+        RowKey: "101000701",
+        attrs: "{\"version\":\"14.12\",\"id\":\"101000701\"}",
+        location: "{\"supplementaryPositionalDescription\":{\"carriageway\":\"mainCarriageway\",\"lane\":\"allLanesCompleteCarriageway\",\"lengthAffected\":\"1250.6351\"},\"linearWithinLinearElement\":{\"directionBoundOnLinearSection\":\"eastBound\",\"linearElement\":{\"roadNumber\":\"A38\",\"linearElementNature\":\"road\",\"attrs\":{\"xsi:type\":\"LinearElement\"}},\"fromPoint\":{\"distanceAlong\":\"0\",\"fromReferent\":{\"referentIdentifier\":\"5000640\",\"referentType\":\"roadNode\"},\"attrs\":{\"xsi:type\":\"DistanceFromLinearElementReferent\"}},\"toPoint\":{\"distanceAlong\":\"0\",\"fromReferent\":{\"referentIdentifier\":\"1010007\",\"referentType\":\"roadNode\"},\"attrs\":{\"xsi:type\":\"DistanceFromLinearElementReferent\"}},\"linearWithinLinearElementExtension\":\"5985\"},\"linearExtension\":{\"areaDescriptor\":[{\"descriptor\":{\"text\":\"Devon County\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"countyName\"},{\"descriptor\":{\"text\":\"Area 1\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"areaName\"},{\"descriptor\":{\"text\":\"South West RCC\",\"attrs\":{\"lang\":\"en\"}},\"tpegAreaDescriptorType\":\"regionName\"}],\"linearLocation\":{\"tpegDirection\":\"eastBound\",\"tpegLinearLocationType\":\"segment\",\"to\":{\"pointCoordinates\":{\"latitude\":\"50.67879\",\"longitude\":\"-3.520158\"},\"ilc\":{\"descriptor\":\"M5\",\"tpegIlcPointDescriptorType\":\"tpegIlcName2\"},\"attrs\":{\"xsi:type\":\"TpegJunction\"}},\"from\":{\"pointCoordinates\":{\"latitude\":\"50.6726\",\"longitude\":\"-3.53392\"},\"ilc\":{\"descriptor\":\"A379\",\"tpegIlcPointDescriptorType\":\"tpegIlcName2\"},\"attrs\":{\"xsi:type\":\"TpegJunction\"}}}},\"attrs\":{\"xsi:type\":\"Linear\"}}",
+        predefinedLocationName: "{\"text\":\"A38 eastbound between A379 and M5/A30\",\"attrs\":{\"lang\":\"en\"}}",
+    }
+];
+
 const vmsModelService = require("../../src/vmsModelService");
+const networkModelLinkService = require("../../src/networkModelLinkService");
 const chai = require("chai");
 const chaihttp = require("chai-http");
 const sinon = require("sinon");
 const assert = require("assert");
+
 sinon.stub(vmsModelService.prototype, "getVMSModelTableService").returns({
     queryEntities: sinon.fake.yields(null, {continuationToken: null}, {body: {value: returnedVMSList}})
 });
+sinon.stub(networkModelLinkService.prototype, "getNetworkModelTableService").returns({
+    queryEntities: sinon.fake.yields(null, {continuationToken: null}, {body: {value: returnedNetworkLinks}})
+});
+
 const app = require("../../index");
 chai.use(chaihttp);
 
@@ -217,6 +242,61 @@ describe("vmsRoute", function(){
         const me = this;
         this.server = chai.request(app)
             .get("/vms/all")
+            .end(function(error, response){
+                assert.deepStrictEqual(error, null);
+                assert.deepStrictEqual(response.status, 200);
+                assert.deepStrictEqual(response.body, me.allResults);
+                done();
+            });
+    });
+});
+
+describe("networkLinkRoute", function(){
+
+    before(function(){
+
+        this.allResults = [
+            {
+                id: "101000101",
+                version: "14.12",
+                carriageway: "exitSlipRoad",
+                length: "389.2783",
+                direction: "southBound",
+                roadNumber: "M5",
+                nature: "road",
+                startNode: "1010020",
+                endNode: "1010001",
+                countyName: "Devon County",
+                areaName: "Area 2",
+                regionName: "South West RCC",
+                startJuntion: "A361",
+                description: "M5 J28 southbound exit",
+            },
+            {
+                id: "101000701",
+                version: "14.12",
+                carriageway: "mainCarriageway",
+                length: "1250.6351",
+                direction: "eastBound",
+                roadNumber: "A38",
+                nature: "road",
+                startNode: "5000640",
+                endNode: "1010007",
+                countyName: "Devon County",
+                areaName: "Area 1",
+                regionName: "South West RCC",
+                startJuntion: "A379",
+                endJunction: "M5",
+                description: "A38 eastbound between A379 and M5/A30",
+            }
+        ];
+        
+    });
+
+    it("gets all links", function(done){
+        const me = this;
+        this.server = chai.request(app)
+            .get("/links/all")
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 200);
