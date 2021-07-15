@@ -87,7 +87,7 @@ describe("networkLinkRoute", function(){
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 200);
-                assert.deepStrictEqual(response.body, [{type: "description", result: me.allResults[1].description}]);
+                assert.deepStrictEqual(response.body, [{type: "description", result: me.allResults[1].description, node: me.allResults[1].startNode}]);
                 done();
             });
     });
