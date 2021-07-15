@@ -20,7 +20,6 @@ const express = require("express");
 const logger = require("../logger");
 const linkModelService = require("../networkModelLinkService");
 const networkModelLinkRequestHandler = require("../networkModelLinkRequestHandler");
-const { route } = require("./vmsRoute");
 const router = express.Router();
 
 const myLinkModelService = new linkModelService();
