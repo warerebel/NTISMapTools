@@ -43,7 +43,7 @@ class networkModelLinkRequestHandler {
         const results = [];
         for(let i = 0; i < links.length; i++){
             if(links[i].description.toLowerCase().includes(target))
-                results.push(links[i].description);
+                results.push({type: "description", result: links[i].description});
             if(results.length >= 10)
                 return results;
         }
