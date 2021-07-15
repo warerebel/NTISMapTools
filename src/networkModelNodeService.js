@@ -98,12 +98,12 @@ class networkModelNodeService {
      * @method getNetworkNodesFromTableStorage
      * @param {string} networkModelVersion - The version of the network model to request
      */
-    async getNetworkNodsFromTableStorage(networkModelVersion = this.currentNetworkModelVersion){
+    async getNetworkNodesFromTableStorage(networkModelVersion = this.currentNetworkModelVersion){
         const queryParameters = this.getNetworkModelQueryParams(networkModelVersion);
         const query = queryBuilder.buildAndQuery(queryParameters);
         const tableService = this.getNetworkModelTableService();
         const result = await QueryRunner.RunQueryToCompletion(query, tableService, this.modelTablename);
-        this.processLinkResults(result);
+        this.processNodeResults(result);
     }
 
     /** Get a list of all network model nodes
