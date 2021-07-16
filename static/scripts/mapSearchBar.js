@@ -43,16 +43,30 @@
 
     async function searchBarValueUpdated(){
         const searchOptions = document.getElementById("mapSearchOptions");
-        const newOptions = [];
         let matchArray = [];
         if(searchbar.value.length >= 3)
             matchArray = await updateMatches(searchbar.value);
-        matchArray.forEach(element => {
+        if(matchArray.length > 1){
+            const newOptions = [];
+            matchArray.forEach(element => {
+                let tag = document.createElement("option");
+                tag.value = element.result;
+                newOptions.push(tag);
+            });
+            searchOptions.replaceChildren(...newOptions);
+        } else if (matchArray.length === 1){
+            const node = await getNode(matchArray[0].node);
+            ntismapdiv.panTo([node.latitude, node.longitude]);
             let tag = document.createElement("option");
-            tag.value = element.result;
-            newOptions.push(tag);
-        });
-        searchOptions.replaceChildren(...newOptions);
+            tag.value = "Type to search...";
+            searchOptions.replaceChildren(tag);
+            searchbar.value = "";
+        } else {
+            let tag = document.createElement("option");
+            tag.value = "Type to search...";
+            searchOptions.replaceChildren(tag);
+        }
+        
         
     }
 
@@ -68,6 +82,20 @@
         const matchArray = await matches.json();
         console.log(matchArray);
         return matchArray;
+    }
+
+    async function getNode(nodeid){
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id: nodeid})
+        };
+        const matches = await fetch("/nodes/byid", requestOptions);
+        const node = await matches.json();
+        console.log(node);
+        return node;
     }
 
 })();
