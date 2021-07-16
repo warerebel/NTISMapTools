@@ -99,7 +99,7 @@ describe("networkModelNodeService", function(){
 
     describe("getNetworkNodeList", function(){
 
-        it("returns a complete link site list", function(){
+        it("returns a complete node site list", function(){
             let inputArray = [this.returnedNodeSamples[0], this.returnedNodeSamples[1], this.returnedNodeSamples[0]];
             const targetArray = [this.targetNodeSamples[0], this.targetNodeSamples[1], this.targetNodeSamples[0]];
             this.myNodeModelService.processNodeResults(inputArray);

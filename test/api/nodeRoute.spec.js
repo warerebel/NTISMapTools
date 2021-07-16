@@ -31,46 +31,25 @@ describe("networkLinkRoute", function(){
 
         this.allResults = [
             {
-                id: "101000101",
+                id: "1010001",
                 version: "14.12",
-                carriageway: "exitSlipRoad",
-                length: "389.2783",
-                direction: "southBound",
-                roadNumber: "M5",
-                nature: "road",
-                startNode: "1010020",
-                endNode: "1010001",
-                countyName: "Devon County",
-                areaName: "Area 2",
-                regionName: "South West RCC",
-                startJuntion: "A361",
-                description: "M5 J28 southbound exit",
+                latitude: 50.8608386454716,
+                longitude: -3.38315366272426
             },
             {
-                id: "101000701",
+                id: "1010002",
                 version: "14.12",
-                carriageway: "mainCarriageway",
-                length: "1250.6351",
-                direction: "eastBound",
-                roadNumber: "A38",
-                nature: "road",
-                startNode: "5000640",
-                endNode: "1010007",
-                countyName: "Devon County",
-                areaName: "Area 1",
-                regionName: "South West RCC",
-                startJuntion: "A379",
-                endJunction: "M5",
-                description: "A38 eastbound between A379 and M5/A30",
+                latitude: 50.8608234863489,
+                longitude: -3.38443205258552
             }
         ];
         
     });
 
-    it("gets all links", function(done){
+    it("gets all nodes", function(done){
         const me = this;
         this.server = chai.request(app)
-            .get("/links/all")
+            .get("/nodes/all")
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 200);
@@ -79,27 +58,28 @@ describe("networkLinkRoute", function(){
             });
     });
 
-    it("matches a search string", function(done){
+    it("gets one node", function(done){
         const me = this;
         this.server = chai.request(app)
-            .post("/links/match")
-            .send({string: "A38"})
+            .post("/nodes/byid")
+            .send({id: "1010002"})
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 200);
-                assert.deepStrictEqual(response.body, [{type: "description", result: me.allResults[1].description, node: me.allResults[1].startNode}]);
+                assert.deepStrictEqual(response.body, me.allResults[1]);
                 done();
             });
     });
 
-    it("doesn't respond to a request with a short search string", function(done){
+    it("receives and error for an incorrect argument", function(done){
+        const me = this;
         this.server = chai.request(app)
-            .post("/links/match")
-            .send({string: "A"})
+            .post("/nodes/byid")
+            .send({})
             .end(function(error, response){
                 assert.deepStrictEqual(error, null);
                 assert.deepStrictEqual(response.status, 400);
-                assert.deepStrictEqual(response.body, {error: "Expected a string greater than 2 characters in length"});
+                assert.deepStrictEqual(response.body, {error: "Expected a string id"});
                 done();
             });
     });

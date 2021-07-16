@@ -48,7 +48,7 @@ router.post("/match", function(req, res){
     if(typeof req.body.string === "string" && req.body.string.length >= 3){
         res.json(myNetworkModelLinkRequesthandler.findMatch(req.body.string.toLowerCase()));
     } else {
-        res.json([]);
+        res.status(400).json({error: "Expected a string greater than 2 characters in length"});
     }
 });
 

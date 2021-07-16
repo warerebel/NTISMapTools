@@ -48,7 +48,7 @@ router.post("/byid", function(req, res){
     if(typeof req.body.id === "string"){
         res.json(myNetworkModelNodeRequesthandler.getNode(req.body.id));
     } else {
-        res.json([]);
+        res.status(400).json({error: "Expected a string id"});
     }
 });
 
