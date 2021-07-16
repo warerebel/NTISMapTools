@@ -18,37 +18,37 @@
 
 const express = require("express");
 const logger = require("../logger");
-const linkModelService = require("../networkModelLinkService");
-const networkModelLinkRequestHandler = require("../networkModelLinkRequestHandler");
+const nodeModelService = require("../networkModelNodeService");
+const networkModelNodeRequestHandler = require("../networkModelNodeRequestHandler");
 const router = express.Router();
 
-const myLinkModelService = new linkModelService();
+const myNodeModelService = new nodeModelService();
 /* istanbul ignore next */
-myLinkModelService.getNetworkLinksFromTableStorage().catch((error) => {
+myNodeModelService.getNetworkNodesFromTableStorage().catch((error) => {
     logger.error(error);
 });
 
-const myNetworkModelLinkRequesthandler = new networkModelLinkRequestHandler(myLinkModelService);
+const myNetworkModelNodeRequesthandler = new networkModelNodeRequestHandler(myNodeModelService);
 
-/** Get all network links
+/** Get all network nodes
  * @method get
  * @param {object} req - An Express request object
  * @param {object} res - An Express response object
  */
 router.get("/all", function(req, res){
-    res.json(myNetworkModelLinkRequesthandler.getAllNetworkLinks());
+    res.json(myNetworkModelNodeRequesthandler.getAllNetworkNodes());
 });
 
-/** Get A Target to match the user input search string
+/** Get A specific node
  * @method Get
  * @param {object} req - An Express request object
  * @param {object} res - An Express response object
  */
-router.post("/match", function(req, res){
-    if(typeof req.body.string === "string" && req.body.string.length >= 3){
-        res.json(myNetworkModelLinkRequesthandler.findMatch(req.body.string.toLowerCase()));
+router.post("/byid", function(req, res){
+    if(typeof req.body.id === "string"){
+        res.json(myNetworkModelNodeRequesthandler.getNode(req.body.id));
     } else {
-        res.status(400).json({error: "Expected a string greater than 2 characters in length"});
+        res.status(400).json({error: "Expected a string id"});
     }
 });
 

@@ -21,6 +21,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const vmsRoute = require("./src/routes/vmsRoute");
 const networkLinksRoute = require("./src/routes/networkLinkRoute");
+const networkNodesRoute = require("./src/routes/networkNodeRoute");
 const logger = require("./src/logger");
 
 const app = express();
@@ -47,6 +48,7 @@ app.get("/", function (req, res) {
 
 app.use("/vms", vmsRoute);
 app.use("/links", networkLinksRoute);
+app.use("/nodes", networkNodesRoute);
 
 app.listen(port, () => {
     logger.info(`Started NTISMapTools app, listening on port: ${port}`);

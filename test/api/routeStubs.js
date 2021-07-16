@@ -92,8 +92,24 @@ function init(){
         }
     ];
 
+    const returnedNodes = [
+        {
+            "odata.etag": "W/\"datetime'2021-06-18T18%3A54%3A49.1049839Z'\"",
+            PartitionKey: "14.12",
+            RowKey: "1010001",
+            location: "{\"attrs\":{\"xsi:type\":\"Point\"},\"pointByCoordinates\":{\"latitude\":\"50.8608386454716\",\"longitude\":\"-3.38315366272426\"}}"
+        },
+        {
+            "odata.etag": "W/\"datetime'2021-06-18T18%3A54%3A49.1049839Z'\"",
+            PartitionKey: "14.12",
+            RowKey: "1010002",
+            location: "{\"attrs\":{\"xsi:type\":\"Point\"},\"pointByCoordinates\":{\"latitude\":\"50.8608234863489\",\"longitude\":\"-3.38443205258552\"}}"
+        }
+    ];
+
     const vmsModelService = require("../../src/vmsModelService");
     const networkModelLinkService = require("../../src/networkModelLinkService");
+    const networkModelNodeService = require("../../src/networkModelNodeService");
     const sinon = require("sinon");
 
     sinon.restore();
@@ -103,6 +119,9 @@ function init(){
     });
     sinon.stub(networkModelLinkService.prototype, "getNetworkModelTableService").returns({
         queryEntities: sinon.fake.yields(null, {continuationToken: null}, {body: {value: returnedNetworkLinks}})
+    });
+    sinon.stub(networkModelNodeService.prototype, "getNetworkModelTableService").returns({
+        queryEntities: sinon.fake.yields(null, {continuationToken: null}, {body: {value: returnedNodes}})
     });
 }
 
