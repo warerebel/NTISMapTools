@@ -18,7 +18,13 @@
 
 /* global L window document */
 
-const ntismapdiv = L.map("NTISMap");
+const ntismapdiv = L.map("NTISMap", {
+    zoomControl: false
+});
+
+const zoomControl = L.control.zoom();
+zoomControl.setPosition("bottomleft");
+zoomControl.addTo(ntismapdiv);
 
 (function(){
 
