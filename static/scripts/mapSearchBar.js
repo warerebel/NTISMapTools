@@ -36,6 +36,7 @@
     }
 
     const myMapSearch = new mapSearchBox();
+    myMapSearch.setPosition("topleft");
     myMapSearch.addTo(ntismapdiv);
 
     const searchbar = document.getElementById("mapSearchBar");
@@ -46,7 +47,7 @@
         let matchArray = [];
         if(searchbar.value.length >= 3)
             matchArray = await updateMatches(searchbar.value);
-        if(matchArray.length > 1){
+        if(matchArray.length > 1 && matchArray[0].result !== matchArray[matchArray.length -1].result){
             const newOptions = [];
             matchArray.forEach(element => {
                 let tag = document.createElement("option");
@@ -54,7 +55,7 @@
                 newOptions.push(tag);
             });
             searchOptions.replaceChildren(...newOptions);
-        } else if (matchArray.length === 1){
+        } else if (matchArray.length === 1 || matchArray[0].result === matchArray[matchArray.length -1].result){
             const node = await getNode(matchArray[0].node);
             ntismapdiv.panTo([node.latitude, node.longitude]);
             let tag = document.createElement("option");
