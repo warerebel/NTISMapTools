@@ -55,7 +55,7 @@
                 newOptions.push(tag);
             });
             searchOptions.replaceChildren(...newOptions);
-        } else if (matchArray.length === 1 || matchArray[0].result === matchArray[matchArray.length -1].result){
+        } else if (matchArray.length === 1 || (matchArray.length > 1 && matchArray[0].result === matchArray[matchArray.length -1].result)){
             const node = await getNode(matchArray[0].node);
             ntismapdiv.panTo([node.latitude, node.longitude]);
             let tag = document.createElement("option");
