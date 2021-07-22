@@ -56,8 +56,13 @@
             });
             searchOptions.replaceChildren(...newOptions);
         } else if (matchArray.length === 1 || (matchArray.length > 1 && matchArray[0].result === matchArray[matchArray.length -1].result)){
-            const node = await getNode(matchArray[0].node);
-            ntismapdiv.panTo([node.latitude, node.longitude]);
+            if(matchArray[0].type === "description"){
+                const node = await getNode(matchArray[0].node);
+                ntismapdiv.panTo([node.latitude, node.longitude]);
+            } 
+            else if(matchArray[0].type === "vms"){
+                ntismapdiv.panTo([matchArray[0].latitude, matchArray[0].longitude]);
+            }
             let tag = document.createElement("option");
             tag.value = "Type to search...";
             searchOptions.replaceChildren(tag);
@@ -81,7 +86,6 @@
         };
         const matches = await fetch("/links/match", requestOptions);
         const matchArray = await matches.json();
-        console.log(matchArray);
         return matchArray;
     }
 
@@ -95,7 +99,6 @@
         };
         const matches = await fetch("/nodes/byid", requestOptions);
         const node = await matches.json();
-        console.log(node);
         return node;
     }
 

@@ -56,3 +56,5 @@ router.post("/boundingBox", function(req, res, next){
 });
 
 module.exports = router;
+
+module.exports.vmsModelService = myVmsModelService;
