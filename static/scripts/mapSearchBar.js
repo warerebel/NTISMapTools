@@ -55,6 +55,10 @@
                 newOptions.push(tag);
             });
             searchOptions.replaceChildren(...newOptions);
+            const matchResults = matchTextInResults(matchArray);
+            if(matchResults > 4){
+                searchbar.value = matchArray[0].result.substring(0, matchResults);
+            }
         } else if (matchArray.length === 1 || (matchArray.length > 1 && matchArray[0].result === matchArray[matchArray.length -1].result)){
             if(matchArray[0].type === "description"){
                 const node = await getNode(matchArray[0].node);
@@ -100,6 +104,16 @@
         const matches = await fetch("/nodes/byid", requestOptions);
         const node = await matches.json();
         return node;
+    }
+
+    function matchTextInResults(matchArray){
+        for(let i = 25; i >= 0; i--){
+            let targetText = matchArray[0].result.substring(0, i);
+            if(matchArray.every(element => {return element.result.includes(targetText);})){
+                return i;
+            }
+        }
+        return -1;
     }
 
 })();
