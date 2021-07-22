@@ -16,6 +16,8 @@
 
 "use strict";
 
+const vmsModelService = require("./routes/vmsRoute").vmsModelService;
+
 class networkModelLinkRequestHandler {
 
     /** Construct new networkModelLinkRequesthandler
@@ -40,10 +42,17 @@ class networkModelLinkRequestHandler {
      */
     findMatch(target){
         const links = this.networkLinkModelService.getNetworkLinkList();
+        const vms = vmsModelService.getVMSSiteList();
         const results = [];
         for(let i = 0; i < links.length; i++){
             if(links[i].description.toLowerCase().includes(target))
                 results.push({type: "description", result: links[i].description, node: links[i].startNode});
+            if(results.length >= 10)
+                return results;
+        }
+        for(let i = 0; i < vms.length; i++){
+            if(vms[i].vmsUnitIdentifier.toLowerCase().includes(target))
+                results.push({type: "vms", result: vms[i].vmsUnitIdentifier, latitude: vms[i].latitude, longitude: vms[i].longitude});
             if(results.length >= 10)
                 return results;
         }
