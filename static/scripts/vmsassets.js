@@ -98,6 +98,8 @@
             let direction = isNaN(parseInt(vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1))) ? vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1) : vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -2, 1);
             let icon = iconLinks[vms.textDisplay.concat(direction)];
             let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true});
+            marker.bindPopup(`<div class="card"><div class="card-body"><h5 class="card-title">VMS Information</h5><table><tr><td class="popupAttribute">Identifier: </td><td class="popupAttributeValue">${vms.vmsUnitIdentifier}</td></tr></div>
+            <tr><td class="popupAttribute">Size: </td><td class="popupAttributeValue">${vms.textDisplay}</td></table></div></div>`, {offset: [0,-42]});
             currentLayers[vms.textDisplay].addLayer(marker);
         });
     }

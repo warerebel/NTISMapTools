@@ -1,1 +1,10 @@
 #NTISMap { height: 180px; }
+
+.popupAttribute {
+    font-weight: bold;
+    text-align: right;
+}
+
+.popupAttributeValue {
+    text-indent: 4pt;
+}
