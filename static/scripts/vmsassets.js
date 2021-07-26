@@ -19,7 +19,7 @@
 /* global L ntismapdiv fetch iconLinks */
 
 (function(){
-    
+    let currentMarkers = [];
     ntismapdiv.on("zoomend", updateMarkers);
     ntismapdiv.on("moveend", updateMarkers);
     //ntismapdiv.on("load", updateMarkers);
@@ -89,19 +89,30 @@
      */
     async function updateMarkers(){
         const VMSList = await updateAssets();
+        const newMarkers = [];
+        VMSList.forEach(function(vms){
+            const result = currentMarkers.some(element => element.options.title === vms.vmsUnitIdentifier);
+            if(!result){
+                let direction = isNaN(parseInt(vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1))) ? vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1) : vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -2, 1);
+                let icon = iconLinks[vms.textDisplay.concat(direction)];
+                let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true});
+                marker.bindPopup(`<div class="card"><div class="card-body"><h5 class="card-title">VMS Information</h5><table><tr><td class="popupAttribute">Identifier: </td><td class="popupAttributeValue">${vms.vmsUnitIdentifier}</td></tr></div>
+            <tr><td class="popupAttribute">Size: </td><td class="popupAttributeValue">${vms.textDisplay}</td></table></div></div>`, {offset: [0,-42]});
+                newMarkers.push(marker);
+                currentLayers[vms.textDisplay].addLayer(marker);
+            }
+        });
         for(let property in currentLayers){
             if(Object.prototype.hasOwnProperty.call(currentLayers, property)){
-                currentLayers[property].clearLayers();
+                const markers = currentLayers[property].getLayers();
+                for(let index in markers){
+                    const result = VMSList.some(element => element.vmsUnitIdentifier === markers[index].options.title);
+                    if(!result)
+                        currentLayers[property].removeLayer(markers[index]);
+                }    
             }
         }
-        VMSList.forEach(function(vms){
-            let direction = isNaN(parseInt(vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1))) ? vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -1, 1) : vms.vmsUnitIdentifier.substr(vms.vmsUnitIdentifier.length -2, 1);
-            let icon = iconLinks[vms.textDisplay.concat(direction)];
-            let marker = L.marker([vms.latitude, vms.longitude], {title: vms.vmsUnitIdentifier, icon: icon, riseOnHover: true});
-            marker.bindPopup(`<div class="card"><div class="card-body"><h5 class="card-title">VMS Information</h5><table><tr><td class="popupAttribute">Identifier: </td><td class="popupAttributeValue">${vms.vmsUnitIdentifier}</td></tr></div>
-            <tr><td class="popupAttribute">Size: </td><td class="popupAttributeValue">${vms.textDisplay}</td></table></div></div>`, {offset: [0,-42]});
-            currentLayers[vms.textDisplay].addLayer(marker);
-        });
+        currentMarkers = newMarkers;
     }
 
     /** Initialise the checkbox control for selecting layers
