@@ -16,10 +16,9 @@
 
 "use strict";
 
-let applicationinsights;
+const applicationinsights = require("applicationinsights");
 /* istanbul ignore if */
-if(typeof process.env.APPINSIGHTS_INSTRUMENTATIONKEY !== undefined){
-    applicationinsights = require("applicationinsights");
+if(typeof process.env.APPINSIGHTS_INSTRUMENTATIONKEY !== "undefined"){
     applicationinsights.start();
 }
 const express = require("express");
