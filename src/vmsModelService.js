@@ -19,6 +19,7 @@
 const azurestorage = require("azure-storage");
 const queryBuilder = require("./queryBuilder");
 const QueryRunner = require("./queryRunner");
+const logger = require("./logger");
 
 class vmsModelService {
 
@@ -76,6 +77,7 @@ class vmsModelService {
             if(typeof result.id !== "undefined")
                 results.push(result);
         });
+        logger.info(`Processed ${results.length} vms sites`);
         return this.vmsModelList = results;
     }
 
@@ -111,6 +113,7 @@ class vmsModelService {
         const query = queryBuilder.buildAndQuery(queryParameters);
         const tableService = this.getVMSModelTableService();
         const result = await QueryRunner.RunQueryToCompletion(query, tableService, this.modelTablename);
+        logger.info(`Downloaded ${result.length} vms sites for model version ${networkModelVersion}`);
         this.processVMSResults(result);
     }
 
