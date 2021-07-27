@@ -1,6 +1,6 @@
 {
   "name": "ntismaptools",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "Map interface to interact with NTIS data",
   "main": "./index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "sinon": "^11.1.1"
   },
   "dependencies": {
+    "applicationinsights": "^2.1.4",
     "azure-storage": "^2.10.4",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
