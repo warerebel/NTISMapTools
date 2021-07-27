@@ -19,6 +19,7 @@
 const azurestorage = require("azure-storage");
 const queryBuilder = require("./queryBuilder");
 const QueryRunner = require("./queryRunner");
+const logger = require("./logger");
 
 class networkModelLinkService {
 
@@ -75,6 +76,7 @@ class networkModelLinkService {
             const result = this.processNetworKModelLink(link);
             results.push(result);
         });
+        logger.info(`Processed ${results.length} network links`);
         return this.networkLinkList = results;
     }
 
@@ -115,6 +117,7 @@ class networkModelLinkService {
         const query = queryBuilder.buildAndQuery(queryParameters);
         const tableService = this.getNetworkModelTableService();
         const result = await QueryRunner.RunQueryToCompletion(query, tableService, this.modelTablename);
+        logger.info(`Downloaded ${result.length} network links for model version ${networkModelVersion}`);
         this.processLinkResults(result);
     }
 
