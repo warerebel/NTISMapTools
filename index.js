@@ -19,6 +19,7 @@
 const applicationinsights = require("applicationinsights");
 /* istanbul ignore if */
 if(typeof process.env.APPINSIGHTS_INSTRUMENTATIONKEY !== "undefined"){
+    applicationinsights.setup();
     applicationinsights.start();
 }
 const express = require("express");
