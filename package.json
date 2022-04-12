@@ -20,8 +20,8 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-mocha": "^10.0.4",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "mocha": "^9.2.2",
@@ -29,7 +29,7 @@
     "sinon": "^13.0.1"
   },
   "dependencies": {
-    "applicationinsights": "^2.2.2",
+    "applicationinsights": "^2.3.1",
     "azure-storage": "^2.10.7",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
@@ -38,6 +38,6 @@
     "helmet": "^5.0.2",
     "pug": "^3.0.2",
     "validate": "^5.2.0",
-    "winston": "^3.6.0"
+    "winston": "^3.7.2"
   }
 }
