@@ -20,7 +20,7 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-mocha": "^10.0.4",
+    "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
@@ -35,7 +35,7 @@
     "chai-http": "^4.3.0",
     "compression": "^1.7.4",
     "express": "^4.17.3",
-    "helmet": "^5.0.2",
+    "helmet": "^5.1.0",
     "pug": "^3.0.2",
     "validate": "^5.2.0",
     "winston": "^3.7.2"
