@@ -28,6 +28,7 @@ const helmet = require("helmet");
 const vmsRoute = require("./src/routes/vmsRoute");
 const networkLinksRoute = require("./src/routes/networkLinkRoute");
 const networkNodesRoute = require("./src/routes/networkNodeRoute");
+const openLRRoute = require("./src/routes/openlrRoute");
 const logger = require("./src/logger");
 
 const app = express();
@@ -35,6 +36,7 @@ const app = express();
 app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
+        "connect-src": ["'self'"],
         "script-src": ["'self'", "cdn.jsdelivr.net", "unpkg.com"],
         "img-src": ["'self'", "*.tile.openstreetmap.org", "unpkg.com", "data:"],
         "frame-ancestors": ["*.id.repl.co", "replit.com"]
@@ -49,12 +51,17 @@ const port = process.env.PORT || 8000;
 app.set("view engine", "pug");
 
 app.get("/", function (req, res) {
-    res.render("index");
+    res.render("index", {index: true});
+});
+
+app.get("/openlr", function (req, res) {
+    res.render("openlr", {openlr: true});
 });
 
 app.use("/vms", vmsRoute);
 app.use("/links", networkLinksRoute);
 app.use("/nodes", networkNodesRoute);
+app.use("/openlr", openLRRoute);
 
 app.listen(port, () => {
     logger.info(`Started NTISMapTools app, listening on port: ${port}`);
