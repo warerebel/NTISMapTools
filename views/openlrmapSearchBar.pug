@@ -1,0 +1,14 @@
+div(class="input-group" id="openlrsearchcontrol")
+    input(class="form-control" id="openlrmapSearchBar" placeholder="Type to search...")
+    button(class="form-control" id="openlrmapSearchButton") Search
+div(class="modal fade" id="noLRResult" tabindex="-1" aria-labelledby="failedSearchModal" aria-hidden="true")
+    div(class="modal-dialog")
+        div(class="modal-content")
+            div(class="modal-header")
+                h5(class="modal-title" id="failedSearchModal") No Result
+                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+            div(class="modal-body")
+                | The Decoder failed to decode a route for this OpenLR reference
+            div(class="modal-footer")
+                button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+script(src="/scripts/openLRSearch.js")
