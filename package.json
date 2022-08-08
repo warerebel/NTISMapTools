@@ -29,7 +29,7 @@
     "sinon": "^14.0.0"
   },
   "dependencies": {
-    "applicationinsights": "^2.3.3",
+    "applicationinsights": "^2.3.4",
     "azure-storage": "^2.10.7",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
