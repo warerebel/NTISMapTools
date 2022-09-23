@@ -47,21 +47,67 @@
         if(geoJsonLayer)
             openlrmapdiv.removeLayer(geoJsonLayer);
         const textBox = document.getElementById("openlrmapSearchBar");
+        const resultTable = document.getElementById("openLR-result-table");
         const openLRRef =encodeURIComponent(textBox.value);
         console.log("Fetching");
         const result = await fetch("/openlr/decode?reference=" + openLRRef);
         const geoJSON = await result.json();
         if(geoJSON.type && geoJSON.type === "FeatureCollection"){
+            const tableDOM = buildResultTable(geoJSON);
+            resultTable.replaceChildren(tableDOM);
             geoJsonLayer = L.geoJSON(geoJSON).addTo(openlrmapdiv);
             const polygon = getPolygon(geoJSON);
             openlrmapdiv.fitBounds(polygon);
         }
         else {
+            resultTable.replaceChildren(document.createElement("div"));
             const modal = document.getElementById("noLRResult");
             new bootstrap.Modal(modal).show();
         }
         
     });
+
+    function buildResultTable(geoJSON){
+        const seenLinks = [];
+        const tableGrid = linkExtents(geoJSON);
+        const table = document.createElement("table");
+        table.classList.add("table");
+        const tableHead = table.appendChild(document.createElement("thead"));
+        const headRow = document.createElement("tr");
+        headRow.appendChild(document.createElement("th")).textContent = "Way ID";
+        headRow.appendChild(document.createElement("th")).textContent = "From Node";
+        headRow.appendChild(document.createElement("th")).textContent = "To Node";
+        tableHead.appendChild(headRow);
+        table.appendChild(tableHead);
+        const tableBody = document.createElement("tbody");
+        for (const feature of geoJSON.features) {
+            if(seenLinks.indexOf(feature.properties.openStreetMapWayId) === -1){
+                const dataRow = document.createElement("tr");
+                dataRow.appendChild(document.createElement("td")).textContent = feature.properties.openStreetMapWayId;
+                dataRow.appendChild(document.createElement("td")).textContent = tableGrid[feature.properties.openStreetMapWayId].startNode;
+                dataRow.appendChild(document.createElement("td")).textContent = tableGrid[feature.properties.openStreetMapWayId].endNode;
+                tableBody.appendChild(dataRow);
+                seenLinks.push(feature.properties.openStreetMapWayId);
+            }
+        }
+        table.appendChild(tableBody);
+        return table;
+    }
+
+    function linkExtents(geoJSON){
+        const links = {};
+        for(const feature of geoJSON.features){
+            if(!links[feature.properties.openStreetMapWayId])
+                links[feature.properties.openStreetMapWayId] = {
+                    startNode: parseInt(feature.properties.startNode), 
+                    endNode: parseInt(feature.properties.endNode)
+                }
+            else {
+                links[feature.properties.openStreetMapWayId].endNode = parseInt(feature.properties.endNode);
+            }
+        }
+        return links;
+    }
 
     function getPolygon(geoJSON){
         let Top = -180;
@@ -78,7 +124,7 @@
             if (feature.geometry.coordinates[0][0][0] < Left)
                 Left = feature.geometry.coordinates[0][0][0];
         }
-        const paddingValue = 0.0005;
+        const paddingValue = 0.005;
         Top = Top + paddingValue;
         Bottom = Bottom - paddingValue;
         Left = Left - paddingValue;
