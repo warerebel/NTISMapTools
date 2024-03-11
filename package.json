@@ -29,7 +29,6 @@
     "sinon": "^17.0.1"
   },
   "dependencies": {
-    "applicationinsights": "^2.9.5",
     "azure-storage": "^2.10.7",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",

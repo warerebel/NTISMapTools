@@ -16,12 +16,6 @@
 
 "use strict";
 
-const applicationinsights = require("applicationinsights");
-/* istanbul ignore if */
-if(typeof process.env.APPINSIGHTS_INSTRUMENTATIONKEY !== "undefined"){
-    applicationinsights.setup();
-    applicationinsights.start();
-}
 const express = require("express");
 const compression = require("compression");
 const helmet = require("helmet");
